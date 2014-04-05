@@ -66,7 +66,7 @@ bool check(const char* word)
     
     while(tempList)
     {
-    	if(!strcmp(word, uncheckedWord))
+    	if(!strcmp(tempList->word, uncheckedWord))
     	{
     		return true;
     	}
@@ -89,6 +89,11 @@ bool load(const char* dictionary)
    if(!(fp = fopen(dictionary, "r")))
    {
    	return false;
+   }
+   
+   for(int i = 0; i < 3500; i++)
+   {
+		hashTable[i] = NULL;
    }
    
    // read the dictionary and create the hash table.
@@ -134,20 +139,26 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    
-  linkedList *nextnodep,*nodep;
-  // Walk hash table deleting nodes
-  // Note need to delete both the node and the word pointed in the node.
-  for (int i = 0; i<3500; i++) {
-      nodep = hashTable[i];
-      while (nodep) {
-	free(nodep->word);
-	nextnodep  = nodep->nextList;
-	free(nodep);
-	nodep = nextnodep;
-      }
-       
-    hashTable[i] = NULL;
-  }
-  return true;
+	linkedList *tempList;
+	linkedList *tempList2;
+	for(int i = 0; i < 3500;i++)
+	{
+		tempList = hashTable[i];
+		if(tempList && !tempList->nextList)
+		{
+			free(tempList->word);
+			free(tempList);
+		}else
+		{
+			while(tempList)
+			{
+				tempList2 = tempList->nextList;
+				free(tempList->word);
+				free(tempList);
+				tempList = tempList2;
+			}
+		}
+		hashTable[i] = NULL;
+	}
+	return true;
 }
