@@ -1,11 +1,18 @@
-0.  TODO
-1.  TODO
-2.  TODO
-3.  TODO
+1.  The longest word in the Oxford English Dictionary. It means getting a
+factitious form of pneumoconiose , caused by breathinh in microscopic 
+silicaparticles from vulcanos.
+2.  Returns resource usage measures for who, which can either be SELF, CHILDREN
+or THREAD.
+3.  16.
 4.  TODO
 5.  TODO
-6.  TODO
-7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
+6.  To make sure no unallowed signs are used, because we use string compare and this
+would error with wrong syntax.
+
+
+1.  A hash table was implemented with linked lists inside each hash entry. The linked list
+contains the word and a pointer to the next linked list in the hash table.
+2.  The checking time of check was very large at first. Around 2 seconds to be precise.
+3.  The problem I was having was a weak hash value algrithm. When i discovered characters had 
+number values assigned to them in C, I used those to calculate better hash values.
+4.  Not necessarily.

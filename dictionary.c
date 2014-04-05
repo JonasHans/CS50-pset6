@@ -40,7 +40,13 @@ linkedList *hashTable[3500];
 int hash(const char* word)
 {
     int wordLen = strlen(word);
-    return wordLen%3500;
+    int hashSum = 0;
+    
+    for(int i = 0; i < wordLen; i++)
+    {
+    	hashSum += word[i];
+    }
+    return hashSum%3500;
 }
 	
 /**
@@ -58,7 +64,7 @@ bool check(const char* word)
     }
     uncheckedWord[strlen(word)] = '\0';
     
-    tempList = hashTable[hash(word)];
+    tempList = hashTable[hash(uncheckedWord)];
     if(!tempList)
     {
     	return false;
@@ -82,7 +88,7 @@ bool check(const char* word)
 bool load(const char* dictionary)
 {
    FILE *fp = NULL;
-   int hashValue;
+   int hashValue ;
    char dictWord[LENGTH+1];
    
    // open the dictionary.
@@ -122,7 +128,6 @@ bool load(const char* dictionary)
    	}   	
    	
    }
-   	printf("Number of words loaded : %d\n", wordCount);
 	return true;
 }
 
@@ -139,8 +144,8 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-	linkedList *tempList;
-	linkedList *tempList2;
+	linkedList *tempList = NULL;
+	linkedList *tempList2 = NULL;
 	for(int i = 0; i < 3500;i++)
 	{
 		tempList = hashTable[i];
