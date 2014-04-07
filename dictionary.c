@@ -3,6 +3,8 @@
  *
  * Computer Science 50
  * Problem Set 6
+ * Jonas van Oenen
+ * 10670947
  *
  * Implements a dictionary's functionality.
  ***************************************************************************/
@@ -17,7 +19,7 @@
 #include <ctype.h>
 
 // size of the hash table
-int hashTableSize = 3500;
+#define HASHTABLE_SIZE 3500
 // number of words loaded into the dictionary
 int wordCount = 0;
 
@@ -32,7 +34,7 @@ typedef struct linkedList
 // create an intitial linked list
 linkedList;
 // create a hash table of linked lists
-linkedList* hashTable[3500];
+linkedList* hashTable[HASHTABLE_SIZE];
 
 /**
  * Returns the hash value of the word
@@ -48,7 +50,7 @@ int hash(const char* word)
     {
     	hashSum += word[i];
     }
-    return hashSum%3500;
+    return hashSum%HASHTABLE_SIZE;
 }
 	
 /**
@@ -100,21 +102,19 @@ bool load(const char* dictionary)
    char dictWord[LENGTH+1];
    
    // open the dictionary
-   if(!(fp = fopen(dictionary, "r")))
+   fp = fopen(dictionary, "r");
+   
+   // if dictionary is empty return false
+   if(fp == NULL)
    {
    	return false;
-   }
-   
-   for(int i = 0; i < 3500; i++)
-   {
-		hashTable[i] = NULL;
    }
    
    // read the dictionary and create the hash table
    while(fscanf(fp,"%s\n", dictWord) != EOF)
    {
 	   	// create new linkedList size of linkedlist
-	   	linkedList *newList = malloc(sizeof(linkedList));
+	   	linkedList* newList = malloc(sizeof(linkedList));
 	   	// allocate the maximum size of the word for memory
 	   	newList->word = malloc(strlen(dictWord)+1);
 	   	// copy the new word into the linked list 
@@ -156,7 +156,7 @@ bool unload(void)
 	linkedList* tempList2 = NULL;
 	
 	// goes through all of the hashtable
-	for(int i = 0; i < 3500;i++)
+	for(int i = 0; i < HASHTABLE_SIZE;i++)
 	{
 		tempList = hashTable[i];
 		// if there is only one linked list present free this linked list

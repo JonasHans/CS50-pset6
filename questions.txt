@@ -23,4 +23,5 @@ contains the word and a pointer to the next linked list in the hash table.
 2.  The checking time of check was very large at first. Around 2 seconds to be precise.
 3.  The problem I was having was a weak hash value algorithm. When i discovered characters had 
 number values assigned to them in C, I used those to calculate better hash values.
-4.  Not necessarily.
+4.  The check method is my bottleneck, especially using the larger text files there are more 
+collisions and check is slower.
