@@ -1,18 +1,26 @@
 1.  The longest word in the Oxford English Dictionary. It means getting a
-factitious form of pneumoconiose , caused by breathinh in microscopic 
+factitious form of pneumoconiose ,caused by breathing in microscopic 
 silicaparticles from vulcanos.
 2.  Returns resource usage measures for who, which can either be SELF, CHILDREN
 or THREAD.
 3.  16.
-4.  TODO
-5.  TODO
-6.  To make sure no unallowed signs are used, because we use string compare and this
-would error with wrong syntax.
-
+4.  Because this way costs less memory then by passing it by value since we are not
+going to be changing the values.
+5.  The for loop gets a word consisting of characters each time it goes through
+the for loop. Only alphabetical characters and apostrophes are allowed. This 
+character is then added to the array word which will store all the characters to 
+form a word. A count(or index) is kept to keep track of how manny characaters there 
+are in a word. If the length of a word is larger then the maximum length of a word 
+this it goes to the next word. If the word contain numbers it also goes to the next 
+word. If the count/index is bigger then 0 an actual word must have been found and 
+it is checked for misspellings, if misspelled it is printed.
+6.  To make sure no unallowed characters are used, because we use string compare and this
+would error with wrong characters.
+7.	So if there is a crash there are values for load and check instead of nothing. 
 
 1.  A hash table was implemented with linked lists inside each hash entry. The linked list
 contains the word and a pointer to the next linked list in the hash table.
 2.  The checking time of check was very large at first. Around 2 seconds to be precise.
-3.  The problem I was having was a weak hash value algrithm. When i discovered characters had 
+3.  The problem I was having was a weak hash value algorithm. When i discovered characters had 
 number values assigned to them in C, I used those to calculate better hash values.
 4.  Not necessarily.

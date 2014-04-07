@@ -26,22 +26,24 @@ int wordCount = 0;
  */
 typedef struct linkedList
 {
-	char *word;
+	char* word;
 	struct linkedList *nextList;
 }
-// create an intitial linked list.
+// create an intitial linked list
 linkedList;
-// create a hash table of linked lists.
-linkedList *hashTable[3500];
+// create a hash table of linked lists
+linkedList* hashTable[3500];
 
 /**
- * Returns the hash value of the word.
+ * Returns the hash value of the word
  */
 int hash(const char* word)
 {
     int wordLen = strlen(word);
     int hashSum = 0;
     
+    // calculates the sum of the numeric values of the characters in a 
+    // specified word
     for(int i = 0; i < wordLen; i++)
     {
     	hashSum += word[i];
@@ -55,21 +57,27 @@ int hash(const char* word)
 bool check(const char* word)
 {
     char uncheckedWord[LENGTH+1];
-    linkedList *tempList;
+    linkedList* tempList = NULL;
     
+    // convert all uppercase letters to lowercase
     for(int i = 0; i < strlen(word); i++)
     {
     	int lowerLetter = tolower(word[i]);
     	uncheckedWord[i] = (char)lowerLetter;
     }
+    // terminate this word
     uncheckedWord[strlen(word)] = '\0';
     
+    // the temporary list which is used for checking
     tempList = hashTable[hash(uncheckedWord)];
+    // if the temporary list is empty the word must be mispelled and it returns false
     if(!tempList)
     {
     	return false;
     }
     
+    // if not null go through all the linked lists and if it matches word is correct and
+    // it returns true
     while(tempList)
     {
     	if(!strcmp(tempList->word, uncheckedWord))
@@ -83,15 +91,15 @@ bool check(const char* word)
 }
 
 /**
- * Loads dictionary into memory.  Returns true if successful else false.
+ * Loads dictionary into memory.  Returns true if successful else false
  */
 bool load(const char* dictionary)
 {
-   FILE *fp = NULL;
-   int hashValue ;
+   FILE* fp = NULL;
+   int hashValue = 0 ;
    char dictWord[LENGTH+1];
    
-   // open the dictionary.
+   // open the dictionary
    if(!(fp = fopen(dictionary, "r")))
    {
    	return false;
@@ -102,30 +110,30 @@ bool load(const char* dictionary)
 		hashTable[i] = NULL;
    }
    
-   // read the dictionary and create the hash table.
+   // read the dictionary and create the hash table
    while(fscanf(fp,"%s\n", dictWord) != EOF)
    {
-   	// create new linkedList size of linkedlis.
-   	linkedList *newList = malloc(sizeof(linkedList));
-   	// allocate the maximum size of the word for memory.
-   	newList->word = malloc(strlen(dictWord)+1);
-   	// copy the new word into the linked list 
-   	strcpy(newList->word,dictWord);
-  
-   	hashValue = hash(dictWord);
-   	
-   	wordCount++;
-   	
-   	// sets the linkedlist in the hashtable to the new linkedlist, if there are other 
-   	// linkedlists then the new list is made the head   	
-   	if(hashTable[hashValue] == NULL)
-   	{
-   		hashTable[hashValue] = newList;
-   	}else
-   	{
-   		newList->nextList = hashTable[hashValue];
-   		hashTable[hashValue] = newList;
-   	}   	
+	   	// create new linkedList size of linkedlist
+	   	linkedList *newList = malloc(sizeof(linkedList));
+	   	// allocate the maximum size of the word for memory
+	   	newList->word = malloc(strlen(dictWord)+1);
+	   	// copy the new word into the linked list 
+	   	strcpy(newList->word,dictWord);
+	  
+	   	hashValue = hash(dictWord);
+	   	
+	   	wordCount++;
+	   	
+	   	// sets the linkedlist in the hashtable to the new linkedlist, if there are other 
+	   	// linkedlists then the new list is made the head   	
+	   	if(hashTable[hashValue] == NULL)
+	   	{
+	   		hashTable[hashValue] = newList;
+	   	}else
+	   	{
+	   		newList->nextList = hashTable[hashValue];
+	   		hashTable[hashValue] = newList;
+	   	}   	
    	
    }
 	return true;
@@ -144,17 +152,21 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-	linkedList *tempList = NULL;
-	linkedList *tempList2 = NULL;
+	linkedList* tempList = NULL;
+	linkedList* tempList2 = NULL;
+	
+	// goes through all of the hashtable
 	for(int i = 0; i < 3500;i++)
 	{
 		tempList = hashTable[i];
+		// if there is only one linked list present free this linked list
 		if(tempList && !tempList->nextList)
 		{
 			free(tempList->word);
 			free(tempList);
 		}else
 		{
+			// goes through all the linked list and frees them one at a time
 			while(tempList)
 			{
 				tempList2 = tempList->nextList;
