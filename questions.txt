@@ -24,4 +24,4 @@ contains the word and a pointer to the next linked list in the hash table.
 3.  The problem I was having was a weak hash value algorithm. When i discovered characters had 
 number values assigned to them in C, I used those to calculate better hash values.
 4.  The check method is my bottleneck, especially using the larger text files there are more 
-collisions and check is slower.
+collisions and check is slower due to a not optimilazed hash function.

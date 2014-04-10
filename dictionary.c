@@ -29,7 +29,7 @@ int wordCount = 0;
 typedef struct linkedList
 {
 	char* word;
-	struct linkedList *nextList;
+	struct linkedList* nextList;
 }
 // create an intitial linked list
 linkedList;
@@ -41,7 +41,8 @@ linkedList* hashTable[HASHTABLE_SIZE];
  */
 int hash(const char* word)
 {
-    int wordLen = strlen(word);
+    int wordLen = 0;
+    wordLen = strlen(word);
     int hashSum = 0;
     
     // calculates the sum of the numeric values of the characters in a 
@@ -59,28 +60,29 @@ int hash(const char* word)
 bool check(const char* word)
 {
     char uncheckedWord[LENGTH+1];
-    linkedList* tempList = NULL;
+    char lowerLetter;
     
     // convert all uppercase letters to lowercase
     for(int i = 0; i < strlen(word); i++)
     {
-    	int lowerLetter = tolower(word[i]);
+    	lowerLetter = tolower(word[i]);
     	uncheckedWord[i] = (char)lowerLetter;
     }
     // terminate this word
     uncheckedWord[strlen(word)] = '\0';
     
+    int hashValue = hash(uncheckedWord);
     // the temporary list which is used for checking
-    tempList = hashTable[hash(uncheckedWord)];
+    linkedList* tempList = hashTable[hashValue];
     // if the temporary list is empty the word must be mispelled and it returns false
-    if(!tempList)
+    if(tempList == NULL)
     {
     	return false;
     }
     
     // if not null go through all the linked lists and if it matches word is correct and
     // it returns true
-    while(tempList)
+    while(tempList != NULL)
     {
     	if(!strcmp(tempList->word, uncheckedWord))
     	{
@@ -129,6 +131,7 @@ bool load(const char* dictionary)
 	   	if(hashTable[hashValue] == NULL)
 	   	{
 	   		hashTable[hashValue] = newList;
+	   		newList->nextList = NULL;
 	   	}else
 	   	{
 	   		newList->nextList = hashTable[hashValue];
@@ -136,6 +139,7 @@ bool load(const char* dictionary)
 	   	}   	
    	
    }
+    fclose(fp);
 	return true;
 }
 
